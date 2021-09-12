@@ -5,4 +5,29 @@ table {
 
 th, tr {
     border: 1px solid black;
+    font-weight: normal;
+    width: 200px;
+}
+
+body {
+    background-color: lightgreen;
+    font-family: sans-serif;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.horMargin {
+    width: 80%;
+    margin: auto;
+}
+
+.smallImg {
+    width: 180px;
+    padding: 5px;
+}
+
+.bold {
+    font-weight: bold;
 }
