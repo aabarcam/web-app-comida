@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/general.css">
+    <link rel="stylesheet" href="css/form_style.css">
     <link rel="stylesheet" href="JQuery/jquery-ui-1.12.1/jquery-ui.css">
     <script src="JQuery/jquery-3.6.0.js"></script>
     <script src="JQuery/jquery-ui-1.12.1/jquery-ui.js"></script>
@@ -12,41 +13,41 @@
     <script src="js/validator.js"></script>
     <title>Informar Evento</title>
 </head>
-<body onload="setRegions(), setDates(), addFoodTypes()">
+<body onload="setRegions(); setDates(); addFoodTypes();">
 
-<div id="title" onclick="goToPortada()" class="text-button">
+<div id="title" onclick="goToPortada();" class="text-button">
     HambreTengo
 </div>
 
 <div id="form-block" class="forml">
-    <form>
+    <form id="informar-form" action="" method="POST">
         <div id="place-section">
             <p class="forml__description">
                 Ingrese la dirección del evento:
             </p>
-            <div id="place-region" class="forml__entry" onchange="setCommunes()">
-                <p class="forml__entry__name--required">Región</p>
-                <select name="region" class="forml__entry__input">
+            <div id="place-region" class="forml__entry" onchange="setCommunes();">
+                <p class="forml__entry__required-name">Región</p>
+                <select name="region" class="forml__input">
                     <option value="" disabled selected>-- seleccione una región --</option>
                 </select>
-                <p class="forml__entry__warning--adjusted" id="region-warning">
+                <p class="forml__warning" id="region-warning">
                     Seleccione una opción válida
                 </p>
             </div>
             <div id="place-commune" class="forml__entry">
-                <p class="forml__entry__name--required">Comuna</p>
-                <select name="comuna" class="forml__entry__input">
+                <p class="forml__entry__required-name">Comuna</p>
+                <select name="comuna" class="forml__input">
                     <option value="" disabled selected>-- seleccione una comuna --</option>
                 </select>
-                <p class="forml__entry__warning--adjusted" id="comuna-warning">
+                <p class="forml__warning" id="comuna-warning">
                     Seleccione una opción válida
                 </p>
             </div>
             <div id="place-sector" class="forml__entry">
                 <p class="forml__entry__name">Sector</p>
-                <input class="forml__entry__input" name="sector" size="100" maxlength="100">
-                <p class="forml__entry__warning--adjust-long" id="sector-warning">
-                    El largo ingresado no debe superar los 100 carácteres
+                <input class="forml__input" name="sector" size="100" maxlength="100">
+                <p class="forml__warning" id="sector-warning">
+                    El largo ingresado no debe superar los 100 caracteres
                 </p>
             </div>
         </div>
@@ -55,30 +56,30 @@
                 Ingrese sus datos:
             </p>
             <div id="personal-name" class="forml__entry">
-                <p class="forml__entry__name--required">Nombre</p>
-                <input class="forml__entry__input" name="nombre" size="100" maxlength="200" required>
-                <p class="forml__entry__warning--adjust-long" id="nombre-warning">
-                    Debe ingresar un nombre de máximo 200 carácteres
+                <p class="forml__entry__required-name">Nombre</p>
+                <input class="forml__input" name="nombre" size="100" maxlength="200">
+                <p class="forml__warning" id="nombre-warning">
+                    Debe ingresar un nombre de máximo 200 caracteres
                 </p>
             </div>
             <div id="personal-email" class="forml__entry">
-                <p class="forml__entry__name--required">E-mail</p>
-                <input class="forml__entry__input" name="email" size="100" required>
-                <p class="forml__entry__warning--adjust-long" id="email-warning">
+                <p class="forml__entry__required-name">E-mail</p>
+                <input class="forml__input" name="email" size="100" required>
+                <p class="forml__warning" id="email-warning">
                     Debe ingresar una dirección de correo electrónico válida
                 </p>
             </div>
             <div id="personal-phone" class="forml__entry">
                 <p class="forml__entry__name">Número de celular</p>
-                <input class="forml__entry__input" name="celular" size="15">
-                <p class="forml__entry__warning--adjust-long" id="celular-warning">
+                <input class="forml__input" name="celular" size="15">
+                <p class="forml__warning" id="celular-warning">
                     El número ingresado debe corresponder a un teléfono válido
                 </p>
             </div>
             <div id="personal-social-network" class="forml__entry">
                 <p class="forml__entry__name" id="social-network-name">Redes sociales</p>
-                <div id="social-network-fields" class="forml__entry__input-group">
-                    <select name="red-social" class="forml__entry__input" onchange="showIdField(this)">
+                <div id="social-network-fields" class="forml__input-group">
+                    <select name="red-social" class="forml__input forml__input--stacked" onchange="showIdField(this);">
                         <option value="" disabled selected>-- seleccione una red social --</option>
                         <option value="1">Twitter</option>
                         <option value="2">Instagram</option>
@@ -86,9 +87,15 @@
                         <option value="4">TikTok</option>
                         <option value="5">Otra</option>
                     </select>
-                    <input class="forml__entry__input--complement" name="red-id" placeholder="Ingrese su ID o URL">
+                    <input class="forml__input forml__input--complement" name="red-id" placeholder="Ingrese su ID o URL">
+                    <p class="forml__warning" id="red-social-warning-0">
+                        Por favor seleccione a que red social corresponde su ID
+                    </p>
                 </div>
-                <p class="btn--link--small" onclick="addSocialNetwork()" id="add-social">Agregar...</p>
+                <p class="text-link text-link--small" onclick="addSocialNetwork();" id="add-social">Agregar...</p>
+                <p class="forml__warning" id="red-social-warning-1">
+                    Se permite un máximo de 5 redes sociales
+                </p>
             </div>
         </div>
         <div id="event-section">
@@ -96,16 +103,16 @@
                 Ingrese la fecha del evento:
             </p>
             <div id="event-init" class="forml__entry">
-                <p class="forml__entry__name--required">Día hora inicio</p>
-                <input class="forml__entry__input" name="dia-hora-inicio" size="20" required>
-                <p class="forml__entry__warning--adjust-long" id="event-init-warning">
+                <p class="forml__entry__required-name">Día hora inicio</p>
+                <input class="forml__input" name="dia-hora-inicio" size="20" required>
+                <p class="forml__warning" id="dia-hora-inicio-warning">
                     Debe ingresar una fecha en el formato: año-mes-dia, hora:minuto
                 </p>
             </div>
             <div id="event-end" class="forml__entry">
-                <p class="forml__entry__name--required">Día hora término</p>
-                <input class="forml__entry__input" name="dia-hora-termino" size="20" required>
-                <p class="forml__entry__warning--adjust-long" id="event-end-warning">
+                <p class="forml__entry__required-name">Día hora término</p>
+                <input class="forml__input" name="dia-hora-termino" size="20" required>
+                <p class="forml__warning" id="dia-hora-termino-warning">
                     Debe ingresar una fecha en el formato: año-mes-dia, hora:minuto
                 </p>
             </div>
@@ -114,30 +121,31 @@
                 <textarea cols="50" rows="10" name="descripcion-evento"></textarea>
             </div>
             <div id="event-type" class="forml__entry">
-                <p class="forml__entry__name--required">Tipo</p>
-                <select name="tipo-comida" class="forml__entry__input">
+                <p class="forml__entry__required-name">Tipo</p>
+                <select name="tipo-comida" class="forml__input">
                     <option value="" disabled selected>-- seleccione una comida --</option>
                 </select>
-                <p class="forml__entry__warning--adjusted" id="event-type-warning">
+                <p class="forml__warning" id="tipo-comida-warning">
                     Debe seleccionar algún tipo de comida
                 </p>
             </div>
             <div id="event-images" class="forml__entry">
-                <p class="forml__entry__name--required">Fotos (min. 1)</p>
-                <div id="event-images-fields" class="forml__entry__input-group">
-                    <input type="file" name="foto-comida" class="forml__entry__input--long">
+                <p class="forml__entry__required-name">Fotos (min. 1)</p>
+                <div id="event-images-fields" class="forml__input-group">
+                    <input type="file" name="foto-comida" class="forml__input forml__input--stacked--large">
                 </div>
-                <p class="btn--link" onclick="addFileField()" id="add-image">Agregar otra foto...</p>
-                <p class="forml__entry__warning" id="event-images-warning">
+                <p class="text-link" onclick="addFileField();" id="add-image">Agregar otra foto...</p>
+                <p class="forml__warning" id="foto-comida-warning">
                     Debe ingresar entre 1 y 5 fotos, formatos admitidos: gif, jpg, png y webp
                 </p>
             </div>
-            <input type="submit" class="forml__submit-btn" value="Enviar información de este evento">
-            <!--
-            <div id="dialog-confirm" title="Empty the recycle bin?">
-                <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>These items will be permanently deleted and cannot be recovered. Are you sure?</p>
+            <input type="button" class="forml__submit-btn" value="Enviar información de este evento" onclick="validate()">
+            <div id="dialog-confirm" title="Confirme el envío" class="pop-up">
+                <p><span class="ui-icon ui-icon-alert"></span>¿Está seguro que desea agregar este evento?</p>
             </div>
-            -->
+            <div id="dialog-success" title="Información recibida" class="pop-up">
+                <p><span class="ui-icon ui-icon-alert"></span>Hemos recibido su información, muchas gracias y suerte en su emprendimiento</p>
+            </div>
         </div>
     </form>
 </div>

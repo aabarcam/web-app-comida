@@ -1,0 +1,70 @@
+.forml {
+    width: 80%;
+    margin: 40px auto auto;
+    background-color: #2c2c2c;
+    color: white;
+    overflow: hidden;
+}
+
+.forml__description {
+    margin-left: 30px;
+}
+.forml__entry {
+    overflow: auto;
+    margin-left: 10em;
+}
+
+.forml__warning {
+    overflow: auto;
+    font-size: 10px;
+    color: red;
+    clear: both;
+    visibility: hidden;
+}
+
+.forml__entry__name {
+    float: left;
+    width: 140px;
+    margin-right: 40px;
+}
+
+.forml__entry__required-name {
+    float: left;
+    width: 140px;
+    margin-right: 40px;
+}
+
+.forml__entry__required-name:after {
+    content: " *";
+    color: red;
+}
+
+.forml__input {
+    float: left;
+    margin-top: 1em;
+    width: 200px;
+}
+
+.forml__input--stacked--large {
+    clear: both;
+    width: 400px;
+}
+
+.forml__input--stacked {
+    clear: both;
+}
+
+.forml__input--complement {
+    margin-left: 20px;
+    visibility: hidden;
+}
+
+.forml__input-group {
+    overflow: auto;
+}
+
+.forml__submit-btn {
+    margin-left: 160px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}

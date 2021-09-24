@@ -2,9 +2,10 @@ let socialNetworks = 1;
 /* Add up to 5 social network fields up to */
 function addSocialNetwork() {
     if (socialNetworks < 5) {
+        let newId = "\"red-social-warning-"+socialNetworks+"\"";
         socialNetworks++;
         document.getElementById("social-network-fields").innerHTML +=
-            "<select name=\"red-social\"class=\"forml__entry__input\" onchange=\"showIdField(this)\">\n" +
+            "<select name=\"red-social\" class=\"forml__input forml__input--stacked\" onchange=\"showIdField(this)\">\n" +
             "    <option value=\"\" disabled selected>-- seleccione una red social --</option>\n" +
             "    <option value=\"1\">Twitter</option>\n" +
             "    <option value=\"2\">Instagram</option>\n" +
@@ -12,9 +13,12 @@ function addSocialNetwork() {
             "    <option value=\"4\">TikTok</option>\n" +
             "    <option value=\"5\">Otra</option>\n" +
             "</select>\n" +
-            "<input class=\"forml__entry__input--complement\" name=\"red-id\" placeholder=\"Ingrese su ID o URL\">\n"
+            "<input class=\"forml__input forml__input--complement\" name=\"red-id\" placeholder=\"Ingrese su ID o URL\">\n" +
+            "<p class=\"forml__warning\" id="+newId+">\n" +
+            "    Por favor seleccione a que red social corresponde su ID\n" +
+            "</p>"
     }
-    if (socialNetworks == 5) {
+    if (socialNetworks === 5) {
         document.getElementById("add-social").remove();
     }
 }
@@ -36,6 +40,21 @@ function setDates() {
     let h = n.getHours();
     let min = n.getMinutes();
     let hEnd = (h + 3)%24;
+    if (m < 10) {
+        m = "0"+m;
+    }
+    if (d < 10) {
+        d = "0"+d;
+    }
+    if (h < 10) {
+        h = "0"+h;
+    }
+    if (hEnd < 10) {
+        hEnd = "0"+hEnd;
+    }
+    if (min < 10) {
+        min = "0"+min;
+    }
     document.getElementsByName("dia-hora-inicio")[0].value = y+"-"+m+"-"+d+","+h+":"+min;
     document.getElementsByName("dia-hora-termino")[0].value = y+"-"+m+"-"+d+","+hEnd+":"+min;
 }
@@ -61,9 +80,9 @@ function addFileField() {
     if (files < 5) {
         files++;
         document.getElementById("event-images-fields").innerHTML +=
-            "<input type=\"file\" name=\"foto-comida\" class=\"forml__entry__input--long\">"
+            "<input type=\"file\" name=\"foto-comida\" class=\"forml__input input forml__input--stacked--large\">"
     }
-    if (files == 5) {
+    if (files === 5) {
         document.getElementById("add-image").remove();
     }
 }
