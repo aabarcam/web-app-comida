@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="css/general.css">
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="js/eventInfo.js"></script>
     <script src="js/navigator.js"></script>
     <title>Portada</title>
 </head>
-<body>
+<body onload="generateLastEventsTable();">
 
 <div id="title" onclick="goToPortada()" class="text-button">
     HambreTengo
@@ -33,8 +34,8 @@
     </p>
 </div>
 
-<div id="last-events">
-    <table id="last-events-table" class="tbl">
+<div id="last-events" class="tbl">
+    <table id="last-events-table">
     <tr>
         <th class="tbl__col-title">Fecha - hora inicio</th>
         <th class="tbl__col-title">Fecha - hora término</th>
@@ -42,47 +43,6 @@
         <th class="tbl__col-title">Sector</th>
         <th class="tbl__col-title">Tipo</th>
         <th class="tbl__col-title">Foto</th>
-    </tr>
-    <tr>
-        <th>2022-01-22 <br>09:00</th>
-        <th>2022-01-22 <br>13:00</th>
-        <th>Santiago</th>
-        <th>Parque O'Higgins</th>
-        <th>Chilena: Empanadas de pino, queso, helado, camarón, manzana</th>
-        <th><img id="empanada" src="img/empanada.jpg" class="tbl__img" alt="Empanadas de horno en una fuente"></th>
-    </tr>
-    <tr>
-        <th>2022-01-21 <br>10:00</th>
-        <th>2022-01-22 <br>16:00</th>
-        <th>La Cisterna</th>
-        <th>Metro La Cisterna</th>
-        <th>Completos: italiano y variedes, sushipleto, de chocolate</th>
-        <th><img src="img/completo.jpg" class="tbl__img" alt="Completos con papas fritas y bebidas en lata"></th>
-    </tr>
-    <tr>
-        <th>2022-01-19 <br>07:00</th>
-        <th>2022-01-22 <br>11:00</th>
-        <th>San Bernardo</th>
-        <th>Plaza</th>
-        <th>Café y Snacks: todo tipo de café y variedad de postres</th>
-        <th> <img src="img/cafe.jpg" class="tbl__img" alt="Mesa con dos tazas de café y una galleta"> </th>
-
-    </tr>
-    <tr>
-        <th>2022-01-18 <br>12:00</th>
-        <th>2022-01-22 <br>18:00</th>
-        <th>Antofagasta</th>
-        <th>Plaza Colón</th>
-        <th>Pescados y mariscos: frito, ceviche, pingüino, helado de pescado</th>
-        <th> <img src="img/pescado-frito.jpg" class="tbl__img" alt="Trozos de pescado frito, un limón y salsa"> </th>
-    </tr>
-    <tr>
-        <th>2022-01-15 <br>16:00</th>
-        <th>2022-01-22 <br>21:00</th>
-        <th>Ñuñoa</th>
-        <th>Estadio Nacional</th>
-        <th>Helados: caseros, de agua, de crema, de pescado</th>
-        <th> <img src="img/helado.jpg" class="tbl__img" alt="Multiples sabores de helado de crema"> </th>
     </tr>
 </table>
 </div>
