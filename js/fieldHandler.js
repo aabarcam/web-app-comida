@@ -15,7 +15,7 @@ function addSocialNetwork() {
             "</select>\n" +
             "<input class=\"forml__input forml__input--complement\" name=\"red-id\" placeholder=\"Ingrese su ID o URL\">\n" +
             "<p class=\"forml__warning\" id="+newId+">\n" +
-            "    Por favor seleccione a que red social corresponde su ID\n" +
+            "    Por favor complete el campo faltante\n" +
             "</p>"
     }
     if (socialNetworks === 5) {
@@ -64,7 +64,7 @@ let tipos = ["Al Paso", "Alemana", "Árabe", "Argentina", "Asiática", "Australi
     "Española", "Exótica", "Francesa", "Gringa", "Hamburguesa", "Helados", "India", "Internacional", "Italiana",
     "Latinoamericana", "Mediterránea", "Mexicana", "Nikkei", "Parrillada", "Peruana", "Pescados y mariscos",
     "Picoteos", "Pizzas", "Pollos y Pavos", "Saludable", "Sándwiches", "Suiza", "Japonesa", "Sushi", "Tapas", "Thai",
-    "Vegana", "Vegetariana"]
+    "Vegana", "Vegetariana"];
 
 function addFoodTypes() {
     for (const tiposKey in tipos) {

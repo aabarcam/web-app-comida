@@ -2,9 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" href="css/general.css">
+    <script src="js/navigator.js"></script>
+    <script src="js/estadisticasCharts.js"></script>
+    <script src="chartJS/chart.min.js"></script>
+    <title>Estadísticas</title>
 </head>
-<body>
+<body onload="generateEstadisticas()">
+
+<div id="title" onclick="goToPortada()" class="text-button">
+    HambreTengo
+</div>
+
+<p class="centered-text">Cantidad de eventos por dia:</p>
+<div class="chart">
+    <canvas id="events-per-day-chart"></canvas>
+</div>
+
+<p class="centered-text">Cantidad de eventos por tipo:</p>
+<div class="chart">
+    <canvas id="events-per-type-chart"></canvas>
+</div>
+
+<p class="centered-text">Cantidad de eventos por hora del dia:</p>
+<div class="chart">
+    <canvas id="events-time-of-day"></canvas>
+</div>
+
+<div id="back" onclick="goToPortada()" class="text-button text-button--small">
+    Volver a la portada
+</div>
 
 </body>
 </html>

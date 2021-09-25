@@ -32,10 +32,23 @@ body {
     background-color: #b0deb0;
 }
 
+.text-button--small {
+    font-size: 30px;
+    width: 300px;
+    height: 40px;
+    margin: auto;
+}
+
+.centered-text {
+    margin-top: 20px;
+    margin-left: 250px;
+    font-size: 25px;
+}
+
 .tbl {
     padding-top: 40px;
     width: 80%;
-    margin: auto;
+    margin: auto auto 10px;
 }
 
 .tbl__img {
@@ -137,6 +150,15 @@ body {
 .pop-up__img {
     width: 800px;
     height: 600px;
+}
+
+.chart {
+    background: #c5c5c5;
+    height: 500px;
+    width: 1000px;
+    margin: 20px auto 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .test-class {
