@@ -15,12 +15,12 @@
 </head>
 <body onload="setRegions(); setDates(); addFoodTypes();">
 
-<div id="title" onclick="goToPortada();" class="text-button">
+<div id="title" onclick="goTo('cgi-bin/portada.py');" class="text-button">
     HambreTengo
 </div>
 
 <div id="form-block" class="forml">
-    <form id="informar-form" action="" method="POST">
+    <form id="informar-form" action="cgi-bin/add_evento.py" method="POST">
         <div id="place-section">
             <p class="forml__description">
                 Ingrese la dirección del evento:
@@ -150,7 +150,7 @@
     </form>
 </div>
 
-<div id="back" onclick="goToPortada()" class="text-button text-button--small">
+<div id="back" onclick="goTo('cgi-bin/portada.py')" class="text-button text-button--small">
     Volver a la portada
 </div>
 

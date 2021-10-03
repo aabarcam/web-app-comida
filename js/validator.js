@@ -138,8 +138,8 @@ function confirm() {
             modal: true,
             buttons: {
                 "Si, estoy seguro": function () {
+                    $("#informar-form").submit()
                     $(this).dialog("close");
-                    successDialog();
                 },
                 "No, no estoy seguro, quiero volver al formulario": function () {
                     $(this).dialog("close");
@@ -161,7 +161,7 @@ function successDialog() {
             buttons: {
                 "Volver a la portada": function () {
                     $(this).dialog("close");
-                    goToPortada();
+                    goTo('cgi-bin/portada.py');
                 }
             }
         });
