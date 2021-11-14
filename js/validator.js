@@ -67,7 +67,7 @@ function validate() {
     }
 
     // fecha validation
-    let fechaRegex = /^\d{4}-\d{2}-\d{2},(2[0-3]|[01]\d):[0-5]\d$/;
+    let fechaRegex = /^\d{4}-\d{2}-\d{2}\s(2[0-3]|[01]\d):[0-5]\d$/;
     let fechaI = document.getElementsByName("dia-hora-inicio")[0].value;
     if (!fechaRegex.test(fechaI)) {
         errors.push("Fecha de inicio");
@@ -138,8 +138,8 @@ function confirm() {
             modal: true,
             buttons: {
                 "Si, estoy seguro": function () {
+                    $("#informar-form").submit()
                     $(this).dialog("close");
-                    successDialog();
                 },
                 "No, no estoy seguro, quiero volver al formulario": function () {
                     $(this).dialog("close");
@@ -161,7 +161,7 @@ function successDialog() {
             buttons: {
                 "Volver a la portada": function () {
                     $(this).dialog("close");
-                    goToPortada();
+                    goTo('cgi-bin/portada.py');
                 }
             }
         });

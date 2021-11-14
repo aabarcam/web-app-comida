@@ -55,8 +55,8 @@ function setDates() {
     if (min < 10) {
         min = "0"+min;
     }
-    document.getElementsByName("dia-hora-inicio")[0].value = y+"-"+m+"-"+d+","+h+":"+min;
-    document.getElementsByName("dia-hora-termino")[0].value = y+"-"+m+"-"+d+","+hEnd+":"+min;
+    document.getElementsByName("dia-hora-inicio")[0].value = y+"-"+m+"-"+d+" "+h+":"+min;
+    document.getElementsByName("dia-hora-termino")[0].value = y+"-"+m+"-"+d+" "+hEnd+":"+min;
 }
 
 let tipos = ["Al Paso", "Alemana", "Árabe", "Argentina", "Asiática", "Australiana", "Brasileña", "Café y Snacks",
@@ -70,7 +70,7 @@ function addFoodTypes() {
     for (const tiposKey in tipos) {
         let tipo = tiposKey + 1;
         document.getElementsByName("tipo-comida")[0].innerHTML +=
-            "<option value="+tipo+">"+tipos[tiposKey]+"</option>";
+            "<option value=\""+tipos[tiposKey]+"\">"+tipos[tiposKey]+"</option>";
     }
 }
 

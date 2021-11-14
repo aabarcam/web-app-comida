@@ -15,12 +15,12 @@
 </head>
 <body onload="setRegions(); setDates(); addFoodTypes();">
 
-<div id="title" onclick="goToPortada();" class="text-button">
+<div id="title" onclick="goTo('cgi-bin/portada.py');" class="text-button">
     HambreTengo
 </div>
 
 <div id="form-block" class="forml">
-    <form id="informar-form" action="" method="POST">
+    <form id="informar-form" enctype="multipart/form-data" action="cgi-bin/add_evento.py" method="POST">
         <div id="place-section">
             <p class="forml__description">
                 Ingrese la dirección del evento:
@@ -81,11 +81,11 @@
                 <div id="social-network-fields" class="forml__input-group">
                     <select name="red-social" class="forml__input forml__input--stacked" onchange="showIdField(this);">
                         <option value="" disabled selected>-- seleccione una red social --</option>
-                        <option value="1">Twitter</option>
-                        <option value="2">Instagram</option>
-                        <option value="3">Facebook</option>
-                        <option value="4">TikTok</option>
-                        <option value="5">Otra</option>
+                        <option value="twitter">Twitter</option>
+                        <option value="instagram">Instagram</option>
+                        <option value="facebook">Facebook</option>
+                        <option value="tiktok">TikTok</option>
+                        <option value="otra">Otra</option>
                     </select>
                     <input class="forml__input forml__input--complement" name="red-id" placeholder="Ingrese su ID o URL">
                     <p class="forml__warning" id="red-social-warning-0">
@@ -106,14 +106,14 @@
                 <p class="forml__entry__required-name">Día hora inicio</p>
                 <input class="forml__input" name="dia-hora-inicio" size="20" required>
                 <p class="forml__warning" id="dia-hora-inicio-warning">
-                    Debe ingresar una fecha en el formato: año-mes-dia, hora:minuto
+                    Debe ingresar una fecha en el formato: año-mes-dia hora:minuto
                 </p>
             </div>
             <div id="event-end" class="forml__entry">
                 <p class="forml__entry__required-name">Día hora término</p>
                 <input class="forml__input" name="dia-hora-termino" size="20" required>
                 <p class="forml__warning" id="dia-hora-termino-warning">
-                    Debe ingresar una fecha en el formato: año-mes-dia, hora:minuto
+                    Debe ingresar una fecha en el formato: año-mes-dia hora:minuto
                 </p>
             </div>
             <div id="event-description" class="forml__entry">
@@ -150,7 +150,7 @@
     </form>
 </div>
 
-<div id="back" onclick="goToPortada()" class="text-button text-button--small">
+<div id="back" onclick="goTo('cgi-bin/portada.py')" class="text-button text-button--small">
     Volver a la portada
 </div>
 
