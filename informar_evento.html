@@ -87,7 +87,10 @@
                         <option value="tiktok">TikTok</option>
                         <option value="otra">Otra</option>
                     </select>
-                    <input class="forml__input forml__input--complement" name="red-id" placeholder="Ingrese su ID o URL">
+                    <input
+                            class="forml__input forml__input--complement"
+                            name="red-id"
+                            placeholder="Ingrese su ID o URL">
                     <p class="forml__warning" id="red-social-warning-0">
                         Por favor complete el campo faltante
                     </p>
@@ -136,15 +139,15 @@
                 </div>
                 <p class="text-link" onclick="addFileField();" id="add-image">Agregar otra foto...</p>
                 <p class="forml__warning" id="foto-comida-warning">
-                    Debe ingresar entre 1 y 5 fotos, formatos admitidos: gif, jpg, png y webp
+                    Debe ingresar entre 1 y 5 fotos, formatos admitidos: jpg, jpeg y png
                 </p>
             </div>
-            <input type="button" class="forml__submit-btn" value="Enviar información de este evento" onclick="validate()">
+            <input type="button"
+                   class="forml__submit-btn"
+                   value="Enviar información de este evento"
+                   onclick="validate()">
             <div id="dialog-confirm" title="Confirme el envío" class="pop-up">
                 <p><span class="ui-icon ui-icon-alert"></span>¿Está seguro que desea agregar este evento?</p>
-            </div>
-            <div id="dialog-success" title="Información recibida" class="pop-up">
-                <p><span class="ui-icon ui-icon-alert"></span>Hemos recibido su información, muchas gracias y suerte en su emprendimiento</p>
             </div>
         </div>
     </form>

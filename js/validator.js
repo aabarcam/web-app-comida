@@ -32,7 +32,7 @@ function validate() {
 
     // email validation
     let email = document.getElementsByName("email")[0].value;
-    let emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    let emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$/;
     if (!emailRegex.test(email)) {
         errors.push("Email");
         document.getElementById("email-warning").style.visibility = "visible";
@@ -90,7 +90,7 @@ function validate() {
     // fotos validation
     let validFiles = true;
     let atLeastOne = false;
-    let fileRegex = /\.(gif|jpe?g|png|webp)$/i;
+    let fileRegex = /\.(jpe?g|png)$/i;
     let files = document.getElementsByName("foto-comida");
     for (const filesKey in files) {
         if (isNaN(filesKey)) {
@@ -143,25 +143,6 @@ function confirm() {
                 },
                 "No, no estoy seguro, quiero volver al formulario": function () {
                     $(this).dialog("close");
-                }
-            }
-        });
-    });
-}
-
-function successDialog() {
-    $("#dialog-success").attr("display", "initial");
-    $(function () {
-        $("#dialog-success").dialog({
-            draggable: false,
-            resizable: false,
-            height: "auto",
-            width: 400,
-            modal: true,
-            buttons: {
-                "Volver a la portada": function () {
-                    $(this).dialog("close");
-                    goTo('cgi-bin/portada.py');
                 }
             }
         });

@@ -7,11 +7,11 @@ function addSocialNetwork() {
         document.getElementById("social-network-fields").innerHTML +=
             "<select name=\"red-social\" class=\"forml__input forml__input--stacked\" onchange=\"showIdField(this)\">\n" +
             "    <option value=\"\" disabled selected>-- seleccione una red social --</option>\n" +
-            "    <option value=\"1\">Twitter</option>\n" +
-            "    <option value=\"2\">Instagram</option>\n" +
-            "    <option value=\"3\">Facebook</option>\n" +
-            "    <option value=\"4\">TikTok</option>\n" +
-            "    <option value=\"5\">Otra</option>\n" +
+            "    <option value=\"twitter\">Twitter</option>\n" +
+            "    <option value=\"instagram\">Instagram</option>\n" +
+            "    <option value=\"facebook\">Facebook</option>\n" +
+            "    <option value=\"tiktok\">TikTok</option>\n" +
+            "    <option value=\"otra\">Otra</option>\n" +
             "</select>\n" +
             "<input class=\"forml__input forml__input--complement\" name=\"red-id\" placeholder=\"Ingrese su ID o URL\">\n" +
             "<p class=\"forml__warning\" id="+newId+">\n" +

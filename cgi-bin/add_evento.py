@@ -7,7 +7,7 @@ import database
 import os
 import filetype
 import re
-import validators
+import math
 from datetime import datetime
 
 cgitb.enable()
@@ -17,12 +17,16 @@ print('')
 
 utf8stdout = open(1, 'w', encoding='utf-8', closefd=False)
 
-events = database.Food("", "root", "", "")
+events = database.Food("root", "")
 form = cgi.FieldStorage()
 
-errors = ""
+succ_msg = """<p id='success-msg'>Su información ha sido recibida</p>"""
 
-files_valid = True
+err_msg = """<p id='error-msg'>Ha ocurrido un error con el envío de la información, por favor haga click en 'Volver' 
+para regresar al formulario y reenviarlo</p>"""
+
+errors = False
+
 file_obj = form['foto-comida']
 if not isinstance(file_obj, list):
     file_obj = [form['foto-comida']]
@@ -33,86 +37,66 @@ for file_elem in file_obj:
         size = os.fstat(file_elem.file.fileno()).st_size
         tipo_real = filetype.guess(file_elem.file)
         file_elem.file.seek(0, 0)
-        if size > 100000 * 1000:
-            files_valid = False
-            errors += f"""
-            <li>Tamaño de archivo {file_elem.filename} muy grande, el tamaño del archivo es de {size}, el máximo 
-            permitido es de 100MB</li>
+        if size > 100 * 1000 * 1000:  # 100MB
+            errors = True
+            err_msg += f"""
+            <p>Tamaño de archivo {file_elem.filename} muy grande, el tamaño del archivo es de 
+            {math.ceil(size / 1000) / 1000}MB, el máximo  permitido es de 100MB</p>
             """
         if tipo_real.mime != 'image/jpeg' and tipo_real.mime != 'image/jpg' and tipo_real.mime != 'image/png':
-            files_valid = False
-            errors = errors + f"""
-            <li>Tipo de archivo inválido: {tipo_real.mime}. Tipos permitidos: jpg, jpeg, png</li>
-            """
-
-if files_valid:
-    events.add_evento(form)
+            errors = True
 
 # region validation
-matches_one = False
 valid_regiones = events.get_regiones()
 region = form["region"].value
 if (region.strip(),) not in valid_regiones:
-    errors += f"""
-    <li>Región seleccionada inválida: {region}</li>
-    """
+    errors = True
 
 # comuna validation
 valid_comunas = events.get_comunas_of_region(region)
 comuna = form["comuna"].value
 if ((comuna.strip()),) not in valid_comunas:
-    errors += """
-    <li>Comuna seleccionada inválida</li>
-    """
+    errors = True
 
 # sector validation
 if len(form["sector"].value) > 100:
-    errors += """
-    <li>Sector supera el limite de caracteres (max. 100)</li>
-    """
+    errors = True
 
 # nombre validation
-largo_nombre = len(form["nombre"].value)
-if largo_nombre == 0:
-    errors += """
-    <li>Nombre no ingresado</li>
-    """
-elif largo_nombre > 200:
-    errors += """
-    <li>Nombre ingresado supera el limite de caracteres (max. 200)</li>
-    """
+nombre = form["nombre"].value.strip()
+nombre_regex = r"""^\s?[A-Za-z\-á-ú]+[A-Za-z\-\sá-úä-ü]*$"""
+if not re.fullmatch(nombre_regex, nombre):
+    errors = True
+
+elif len(nombre) > 200:
+    errors = True
 
 # email validation
 email = form["email"].value
-if not validators.email(email):
-    errors += """
-    <li>Email ingresado es inválido<li>
-    """
+email_regex = r"""^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$"""
+if not re.fullmatch(email_regex, email):
+    errors = True
 
 # celular validation
 celular_regex = r"""^[+]?[0-9]{9,12}\b"""
 celular = form["celular"].value
-if not re.fullmatch(celular_regex, celular):
-    errors += """
-    <li>Celular ingresado es inválido</li>
-    """
+if not re.fullmatch(celular_regex, celular) and celular != "":
+    errors = True
 
 # red social validation
 redes = form.getlist("red-social")
 ids = form.getlist("red-id")
 for red in redes:
-    if red not in ["twitter", "facebook", "instagram", "tiktok", "otros"]:
-        errors += """
-        <li>Red social no existente</li>
-        """
+    if red not in ["twitter", "facebook", "instagram", "tiktok", "otra"]:
+        errors = True
 
 id_regex = r"""^@?[A-Za-z\d\_\.]+$"""
 url_regex = r"""^(https?://)?(www.)?[A-Za-z\d]+\.([A-Za-z\d])+/@?[A-Za-z\d\_\.]+/?$"""
 for id_element in ids:
+    if id_element == "":
+        continue
     if not re.fullmatch(id_regex, id_element) and not re.fullmatch(url_regex, id_element):
-        errors += """
-        <li>ID o URL de red social ingresado inválido</li>
-        """
+        errors = True
 
 # fecha validation
 
@@ -125,9 +109,7 @@ except ValueError:
     inicio_valid = False
 
 if not inicio_valid:
-    errors += """
-    <li>Fecha de inicio inválida, formato admitido: yyyy-mm-dd hh:mm</li>
-    """
+    errors = True
 
 fecha_termino = form["dia-hora-termino"].value
 termino_valid = True
@@ -138,9 +120,7 @@ except ValueError:
     termino_valid = False
 
 if not termino_valid:
-    errors += """
-    <li>Fecha de término inválida, formato admitido: yyyy-mm-dd hh:mm</li>
-    """
+    errors = True
 
 # tipo validation
 valid_tipos = ["Al Paso", "Alemana", "Árabe", "Argentina", "Asiática", "Australiana", "Brasileña", "Café y Snacks",
@@ -151,9 +131,10 @@ valid_tipos = ["Al Paso", "Alemana", "Árabe", "Argentina", "Asiática", "Austra
                "Suiza", "Japonesa", "Sushi", "Tapas", "Thai", "Vegana", "Vegetariana"]
 tipo = form["tipo-comida"].value
 if tipo not in valid_tipos:
-    errors += """
-    <li>Tipo de comida ingresado inválido
-    """
+    errors = True
+
+if not errors:
+    events.add_evento(form)
 
 header = """
 <!DOCTYPE html>
@@ -165,7 +146,7 @@ header = """
     <script src="../js/navigator.js"></script>
     <title>Portada</title>
 </head>
-<body onload="generateLastEventsTable();">
+<body class='bg' onload="generateLastEventsTable();">
 
 <div id="title" onclick="goTo('portada.py')" class="text-button">
     HambreTengo
@@ -176,13 +157,32 @@ header = """
     <button class="btn-group__button" onclick="goTo('listado_de_eventos.py')">Ver listado de eventos</button>
     <button class="btn-group__button" onclick="goTo('../estadisticas.html')">Estadísticas</button>
 </div>
+"""
 
-<div id='success-msg'>
-    <p>Su información ha sido recibida</p>
+success = """
+<div id="back-to-portada" onclick="goTo('portada.py')" class="text-button text-button--small">
+    Volver a la portada
 </div>
-<ul>
+"""
+
+return_to_form = """
+<div id="back" onclick="goBack()" class="text-button text-button--small">
+    Volver
+</div>
+"""
+
+footer = """
+</body>
+</html>
 """
 
 print(header, file=utf8stdout)
-print(errors, file=utf8stdout)
-print("</ul>", file=utf8stdout)
+
+if errors:
+    print(err_msg, file=utf8stdout)
+    print(return_to_form, file=utf8stdout)
+else:
+    print(succ_msg, file=utf8stdout)
+    print(success, file=utf8stdout)
+
+print(footer, file=utf8stdout)

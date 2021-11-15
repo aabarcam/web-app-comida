@@ -23,7 +23,7 @@ header = """
     <script src="../js/navigator.js"></script>
     <title>Portada</title>
 </head>
-<body onload="generateLastEventsTable();">
+<body>
 
 <div id="title" onclick="goTo('portada.py')" class="text-button">
     HambreTengo
@@ -64,12 +64,29 @@ table = f"""
 </tr>
 """
 
-events = database.Food("", "root", "", "")
-data = events.get_last_5_events()
+events = database.Food("root", "")
+last_5_events = events.get_last_5_events()
 
-print(data, file=utf8stdout)
+# last_5_events = id, dia_hora_inicio, dia_hora_termino, comuna_id, sector, descripcion, tipo
+
+
+for event in last_5_events:
+    comuna = events.get_comuna_name_by_id(event[3])
+    foto_path = events.get_all_event_fotos(event[0])[0][0]  # primera foto
+    table += f"""
+    <tr>
+        <th>{event[1]}</th>
+        <th>{event[2]}</th>
+        <th>{comuna}</th>
+        <th>{event[4]}</th>
+        <th>{event[6]}: {event[5]}</th>
+        <th><img src="../media/{foto_path}" alt="Imagen representativa del evento" class="tbl__img"></th>
+    </tr>
+    """
 
 footer = """
+
+
 </table>
 </div>
 

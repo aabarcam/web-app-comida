@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
+import html
 
 import pymysql
 import hashlib
@@ -7,9 +8,9 @@ import hashlib
 utf8stdout = open(1, 'w', encoding='utf-8', closefd=False)
 
 class Food:
-    def __init__(self, host, user, password, database):
+    def __init__(self, user, password):
         self.conn = pymysql.connect(
-            db='tarea2',
+            db='cc500207_db',
             user=user,
             password=password,
             host='localhost',
@@ -25,15 +26,15 @@ class Food:
 
         com_id = self.get_comuna_id(data['comuna'].value)
 
-        # se inserta el evento a tabla evento
+        # se inserta el evento a tabla evento con proteccion contra inyeccion de codigo en campos necesarios
         sql = """
         INSERT INTO evento (comuna_id, sector, nombre, email, celular, 
             dia_hora_inicio, dia_hora_termino, descripcion, tipo) 
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);
         """
-        self.cursor.execute(sql, (com_id, data['sector'].value, data['nombre'].value,
+        self.cursor.execute(sql, (com_id, html.escape(data['sector'].value), data['nombre'].value,
                                   data['email'].value, data['celular'].value, data['dia-hora-inicio'].value,
-                                  data['dia-hora-termino'].value, data['descripcion-evento'].value,
+                                  data['dia-hora-termino'].value, html.escape(data['descripcion-evento'].value),
                                   data['tipo-comida'].value))
         self.conn.commit()
         event_id = self.cursor.lastrowid
@@ -58,6 +59,7 @@ class Food:
 
             file_hash = str(total) + hashlib.sha1(filename.encode('utf-8')).hexdigest()
 
+            #open('../media/' + file_hash, 'wb').write(file_elem.file.read())
             open('media/' + file_hash, 'wb').write(file_elem.file.read())
 
             sql = f"""
@@ -71,6 +73,8 @@ class Food:
         redes = data.getlist('red-social')
         red_ids = data.getlist('red-id')
         for redKey in range(len(redes)):
+            if redes[redKey] == "":
+                continue
             sql = f"""
             INSERT INTO red_social (nombre, identificador, evento_id)
             VALUES (%s, %s, %s);
@@ -85,6 +89,15 @@ class Food:
         WHERE nombre = %s;
         """
         self.cursor.execute(sql, nombre)
+        return self.cursor.fetchall()[0][0]
+
+    def get_comuna_name_by_id(self, c_id):
+        sql = """
+        SELECT nombre
+        FROM comuna
+        WHERE id = %s;
+        """
+        self.cursor.execute(sql, c_id)
         return self.cursor.fetchall()[0][0]
 
     def get_regiones(self):
@@ -126,10 +139,55 @@ class Food:
 
     def get_last_5_events(self):
         sql = """
-        SELECT id, comuna_id, sector, nombre, email, celular, dia_hora_inicio, dia_hora_termino, descripcion, tipo 
+        SELECT id, dia_hora_inicio, dia_hora_termino, comuna_id, sector, descripcion, tipo
         FROM evento 
-        ORDER BY dia_hora_inicio 
-        DESC LIMIT 5;
+        ORDER BY dia_hora_inicio DESC
+        LIMIT 5;
+        """
+        self.cursor.execute(sql)
+        return self.cursor.fetchall()
+
+    def get_all_events(self):
+        sql = """
+        SELECT *
+        FROM evento
+        ORDER BY dia_hora_inicio DESC;
+        """
+        self.cursor.execute(sql)
+        return self.cursor.fetchall()
+
+    def get_region_id_by_comuna_id(self, comuna_id):
+        sql = f"""
+        SELECT region_id
+        FROM comuna
+        WHERE id = {comuna_id};
+        """
+        self.cursor.execute(sql)
+        return self.cursor.fetchall()[0][0]
+
+    def get_region_by_id(self, region_id):
+        sql = f"""
+        SELECT nombre
+        FROM region
+        WHERE id = {region_id};
+        """
+        self.cursor.execute(sql)
+        return self.cursor.fetchall()[0][0]
+
+    def get_all_event_redes(self, e_id):
+        sql = f"""
+        SELECT nombre, identificador
+        FROM red_social
+        WHERE evento_id = {e_id};
+        """
+        self.cursor.execute(sql)
+        return self.cursor.fetchall()
+
+    def get_all_event_fotos(self, e_id):
+        sql = f"""
+        SELECT ruta_archivo
+        FROM foto
+        WHERE evento_id = {e_id};
         """
         self.cursor.execute(sql)
         return self.cursor.fetchall()
